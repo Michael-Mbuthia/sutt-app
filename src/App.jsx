@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
-import Viewer from "./pages/Viewer";
 import "./App.css";
 import Nav from "./Nav";
 import Singles from "./categories/singles/Singles";
@@ -23,9 +22,6 @@ function App() {
         <Route path="/admin/doubles" element={<Doubles />} />
         <Route path="/admin/under18" element={<Under18 />} />
         <Route path="/admin/family-event" element={<FamilyEvent />} />
-        {/* Add other admin routes here */}
-        {/* Viewer routes */}
-        <Route path="/viewer/*" element={<Viewer />} />
       </Routes>
     </div>
   );

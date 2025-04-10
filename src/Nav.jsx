@@ -12,9 +12,6 @@ function Nav() {
           <li>
             <Link to="/admin">Admin Mode</Link>
           </li>
-          <li>
-            <Link to="/viewer">Viewer Mode</Link>
-          </li>
         </ul>
       </nav>
     </div>
