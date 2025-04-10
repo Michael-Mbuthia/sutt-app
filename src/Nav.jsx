@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./index.css";
 
-export default function Nav() {
+function Nav() {
   return (
     <div className="nav-container">
       <nav className="nav">
@@ -20,3 +20,5 @@ export default function Nav() {
     </div>
   );
 }
+
+export default Nav;

@@ -6,11 +6,10 @@ const Singles = () => {
     <div>
       <h1>Singles</h1>
       <div>
-        {/* Button for Men */}
         <button style={{ margin: "5px" }}>
           <Link to="/singles/men">Men</Link>
         </button>
-        {/* Button for Ladies */}
+
         <button style={{ margin: "5px" }}>
           <Link to="/singles/ladies">Ladies</Link>
         </button>
