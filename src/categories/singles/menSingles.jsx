@@ -5,14 +5,14 @@ function menSingles() {
   return (
     <>
       <div>
-        <ul>
-          <li>
-            <Link to="/admin/singles">Pools</Link>
-          </li>
-          <li>
-            <Link to="/admin/doubles">Knockout</Link>
-          </li>
-        </ul>
+        <h2>Men's singles</h2>
+        <button style={{ margin: "5px" }}>
+          <Link to="/admin/singles/menSingles/menPooling">Pools</Link>
+        </button>
+
+        <button style={{ margin: "5px" }}>
+          <Link to="/admin/singles/menSingles/menKnockout">Knockout</Link>
+        </button>
       </div>
     </>
   );
