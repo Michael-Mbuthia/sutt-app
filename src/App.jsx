@@ -12,6 +12,16 @@ import MenSingles from "./categories/singles/menSingles";
 import LadiesSingles from "./categories/singles/ladiesSingles";
 import MensPools from "./categories/singles/pools/menPooling";
 import MensKnockout from "./categories/singles/knockout/mensKnockout";
+import LadiesPools from "./categories/singles/pools/ladiesPooling";
+import LadiesKnockout from "./categories/singles/knockout/ladiesKnockout";
+import MenDoubles from "./categories/doubles/menDoubles";
+import LadiesDoubles from "./categories/doubles/ladiesDoubles";
+import Boys from "./categories/under-18/Boys";
+import Girls from "./categories/under-18/Girls";
+import Boyspooling from "./categories/under-18/boys/Boyspooling";
+import Boysknockout from "./categories/under-18/boys/Boysknockout";
+import Girlspooling from "./categories/under-18/girls/Girlspooling";
+import GirlsKnockout from "./categories/under-18/girls/Girlsknockout";
 
 function App() {
   return (
@@ -39,7 +49,38 @@ function App() {
           path="/admin/singles/menSingles/menKnockout"
           element={<MensKnockout />}
         />
-        {/* Other routes */}
+        <Route
+          path="/admin/singles/ladiesSingles/ladiesPooling"
+          element={<LadiesPools />}
+        />
+        <Route
+          path="/admin/singles/ladiesSingles/ladiesKnockout"
+          element={<LadiesKnockout />}
+        />
+        <Route path="/admin/doubles/menDoubles" element={<MenDoubles />} />
+        <Route
+          path="/admin/doubles/ladiesDoubles"
+          element={<LadiesDoubles />}
+        />
+        <Route path="/admin/under-18/Boys" element={<Boys />} />
+        <Route path="/admin/under-18/Girls" element={<Girls />} />
+        <Route
+          path="/admin/under-18/Boys/Boyspooling"
+          element={<Boyspooling />}
+        />
+        <Route
+          path="/admin/under-18/Boys/Boysknockout"
+          element={<Boysknockout />}
+        />
+        <Route
+          path="/admin/under-18/Girls/Girlspooling"
+          element={<Girlspooling />}
+        />
+        <Route
+          path="/admin/under-18/Girls/GirlsKnockout"
+          element={<GirlsKnockout />}
+        />
+        {/* Other routes */} ``
       </Routes>
     </div>
   );

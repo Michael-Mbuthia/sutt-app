@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ladiesSingles() {
+function Boys() {
   return (
     <>
       <div>
-        <h1>Ladies Singles</h1>
+        <h2>Boys</h2>
         <button style={{ margin: "5px" }}>
-          <Link to="/admin/singles/ladiesSingles/ladiesPooling">Pools</Link>
+          <Link to="/admin/under-18/Boys/Boyspooling">Pools</Link>
         </button>
-
         <button style={{ margin: "5px" }}>
-          <Link to="/admin/singles/ladiesSingles/ladiesKnockout">Knockout</Link>
+          <Link to="/admin/under-18/Boys/Boysknockout">Knockout</Link>
         </button>
       </div>
     </>
   );
 }
-export default ladiesSingles;
+
+export default Boys;
