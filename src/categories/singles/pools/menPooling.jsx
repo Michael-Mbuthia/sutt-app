@@ -72,7 +72,7 @@ const MenPooling = () => {
       };
       generateMatches();
     }
-  }, [players]);
+  }, [players, selectedPoolIndex]);
 
   // Function to update the score of a match
   const updateScore = (rowPlayer, colPlayer, newScore) => {
