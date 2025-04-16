@@ -2,28 +2,21 @@ import React, { useState, useEffect } from "react";
 import "./MenPooling.css";
 
 const MenPooling = () => {
-  // State to manage pools
   const [pools, setPools] = useState([]);
   const [newPoolName, setNewPoolName] = useState("");
   const [showDialog, setShowDialog] = useState(false);
 
-  // State to manage players and match results for the selected pool
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(null);
   const [players, setPlayers] = useState([]);
+  const [newPlayer, setNewPlayer] = useState("");
   const [results, setResults] = useState({});
 
-  // Function to open the dialog box for adding a new pool
-  const openDialog = () => {
-    setShowDialog(true);
-  };
-
-  // Function to close the dialog box
+  const openDialog = () => setShowDialog(true);
   const closeDialog = () => {
     setShowDialog(false);
     setNewPoolName("");
   };
 
-  // Function to add a new pool
   const addPool = () => {
     if (newPoolName) {
       setPools([...pools, { name: newPoolName, players: [], results: {} }]);
@@ -31,14 +24,12 @@ const MenPooling = () => {
     }
   };
 
-  // Function to select a pool for editing
   const selectPool = (index) => {
     setSelectedPoolIndex(index);
     setPlayers(pools[index].players);
     setResults(pools[index].results);
   };
 
-  // Function to save changes to the selected pool
   const savePoolChanges = () => {
     const updatedPools = [...pools];
     updatedPools[selectedPoolIndex] = {
@@ -47,25 +38,23 @@ const MenPooling = () => {
       results,
     };
     setPools(updatedPools);
-    setSelectedPoolIndex(null);
   };
 
-  // Function to add a player to the selected pool
-  const addPlayer = (newPlayer) => {
+  const addPlayer = () => {
     if (newPlayer && !players.includes(newPlayer)) {
       setPlayers([...players, newPlayer]);
+      setNewPlayer("");
     }
   };
 
-  // Function to generate matches when players change
   useEffect(() => {
     if (selectedPoolIndex !== null) {
       const generateMatches = () => {
         const newResults = {};
         for (let i = 0; i < players.length; i++) {
           for (let j = i + 1; j < players.length; j++) {
-            const matchKey = `${players[i]}-${players[j]}`;
-            newResults[matchKey] = results[matchKey] || ""; // Preserve existing scores
+            const matchKey = [players[i], players[j]].sort().join("-");
+            newResults[matchKey] = results[matchKey] || "";
           }
         }
         setResults(newResults);
@@ -74,33 +63,30 @@ const MenPooling = () => {
     }
   }, [players, selectedPoolIndex]);
 
-  // Function to update the score of a match
-  const updateScore = (rowPlayer, colPlayer, newScore) => {
-    if (rowPlayer !== colPlayer && newScore) {
-      const key = `${rowPlayer}-${colPlayer}`;
-      setResults({ ...results, [key]: newScore });
+  const updateScore = (player1, player2, newScore) => {
+    if (player1 !== player2) {
+      const sortedKey = [player1, player2].sort().join("-");
+      setResults({ ...results, [sortedKey]: newScore });
     }
   };
 
-  // Function to get the result of a match
-  const getResult = (rowPlayer, colPlayer) => {
-    if (rowPlayer === colPlayer) {
-      return "-"; // Same player, no match
-    }
-    const key1 = `${rowPlayer}-${colPlayer}`;
-    const key2 = `${colPlayer}-${rowPlayer}`;
-    return results[key1] || results[key2] || "";
-  };
+  const getResult = (player1, player2) => {
+    if (player1 === player2) return "-";
 
-  // Function to display all possible matches
-  const getAllMatches = () => {
-    const matches = [];
-    for (let i = 0; i < players.length; i++) {
-      for (let j = i + 1; j < players.length; j++) {
-        matches.push(`${players[i]} vs ${players[j]}`);
+    const [first, second] = [player1, player2].sort();
+    const key = `${first}-${second}`;
+    const value = results[key] || "";
+
+    // Determine if current direction is reversed
+    if (value && player1 > player2) {
+      // Reverse score only if value exists and key is in opposite direction
+      const parts = value.split("-");
+      if (parts.length === 2) {
+        return `${parts[1]}-${parts[0]}`;
       }
     }
-    return matches;
+
+    return value;
   };
 
   return (
@@ -125,11 +111,10 @@ const MenPooling = () => {
         <div>
           <h2>Men's Pools</h2>
           <button onClick={openDialog}>Add Pool</button>
-          <ol>
+          <ol className="pool-list">
             {pools.map((pool, index) => (
               <li key={index}>
-                {pool.name}{" "}
-                <button onClick={() => selectPool(index)}>Edit</button>
+                <button onClick={() => selectPool(index)}> {pool.name} </button>
               </li>
             ))}
           </ol>
@@ -146,14 +131,18 @@ const MenPooling = () => {
 
             {/* Player Management */}
             <div>
-              <h4>Players</h4>
               <input
                 type="text"
                 placeholder="Add new player"
+                value={newPlayer}
+                onChange={(e) => setNewPlayer(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") addPlayer(e.target.value);
+                  if (e.key === "Enter") addPlayer();
                 }}
               />
+              <button onClick={addPlayer}>Add Player</button>
+              <h4>Players</h4>
+
               <ul>
                 {players.map((player, index) => (
                   <li key={index}>{player}</li>
@@ -180,7 +169,7 @@ const MenPooling = () => {
                       {players.map((colPlayer, colIndex) => (
                         <td key={`${rowPlayer}-${colPlayer}`}>
                           {rowIndex === colIndex ? (
-                            <div className="disabled-cell">-</div> // Diagonal cells
+                            <div className="disabled-cell">-</div>
                           ) : (
                             <input
                               type="text"
@@ -201,27 +190,18 @@ const MenPooling = () => {
                   ))}
                 </tbody>
               </table>
-              <div>
-                <h4>All Possible Matches</h4>
-                <ul>
-                  {getAllMatches().map((match, index) => (
-                    <li key={index}>{match}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
 
           {/* Right Column: Matches */}
           <div className="matches-section">
-            <h4>All Possible Matches</h4>
+            <h4>Matches</h4>
             <ul>
-              {Object.keys(results).map((matchKey, index) => {
+              {Object.entries(results).map(([matchKey, score], index) => {
                 const [player1, player2] = matchKey.split("-");
                 return (
                   <li key={index}>
-                    {player1} vs {player2} — Score:{" "}
-                    {results[matchKey] || "Not Played"}
+                    {player1} vs {player2}: {score}
                   </li>
                 );
               })}
